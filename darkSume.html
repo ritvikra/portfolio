@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ritvik Rallapalli - Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+        }
+        
+        .grid-dot {
+            width: 4px;
+            height: 4px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+        
+        .wave-animation {
+            animation: waveReveal 3s ease-out forwards;
+        }
+        
+        @keyframes waveReveal {
+            0% { opacity: 0; }
+            30% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        
+        .name-reveal {
+            opacity: 0;
+            animation: nameAppear 1s ease-out 2.5s forwards;
+        }
+        
+        @keyframes nameAppear {
+            0% { 
+                opacity: 0; 
+                transform: translateY(30px) scale(0.8);
+                filter: blur(10px);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+        
+        .subtitle-reveal {
+            opacity: 0;
+            animation: subtitleAppear 1s ease-out 3.5s forwards;
+        }
+        
+        @keyframes subtitleAppear {
+            0% { 
+                opacity: 0; 
+                transform: translateY(20px);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+        
+        .content-reveal {
+            opacity: 0;
+            animation: contentAppear 1s ease-out 4.5s forwards;
+        }
+        
+        @keyframes contentAppear {
+            0% { 
+                opacity: 0; 
+                transform: translateY(30px);
+            }
+            100% { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
+        }
+        
+        .card-dark {
+            background: #111111;
+            border: 1px solid #333333;
+            transition: all 0.3s ease;
+        }
+        
+        .card-dark:hover {
+            background: #1a1a1a;
+            border-color: #555555;
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-dark {
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #333333;
+        }
+        
+        .skill-tag-dark {
+            background: #1a1a1a;
+            border: 1px solid #333333;
+            color: #ffffff;
+            transition: all 0.2s ease;
+        }
+        
+        .skill-tag-dark:hover {
+            background: #333333;
+            transform: scale(1.05);
+        }
+        
+        .section-divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #ffffff, transparent);
+            margin: 0 auto;
+        }
+        
+        .project-block {
+            transition: all 0.4s ease;
+        }
+        
+        .project-block:hover {
+            transform: scale(1.02) rotate(0.5deg);
+        }
+        
+        .project-block:nth-child(2n) {
+            transform: translateY(40px);
+        }
+        
+        .project-block:nth-child(3n) {
+            transform: translateY(-20px);
+        }
+        
+        .project-block:hover:nth-child(2n) {
+            transform: translateY(40px) scale(1.02) rotate(-0.5deg);
+        }
+        
+        .project-block:hover:nth-child(3n) {
+            transform: translateY(-20px) scale(1.02) rotate(0.5deg);
+        }
+        
+        .experience-timeline {
+            position: relative;
+        }
+        
+        .experience-timeline::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, transparent, #ffffff, transparent);
+        }
+        
+        .experience-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .experience-item::before {
+            content: '';
+            position: absolute;
+            left: -6px;
+            top: 20px;
+            width: 12px;
+            height: 12px;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+        
+        .floating-element {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body class="bg-black text-white overflow-x-hidden">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        const Portfolio = () => {
+            const [activeSection, setActiveSection] = useState('home');
+            const [isScrolled, setIsScrolled] = useState(false);
+            const [animationComplete, setAnimationComplete] = useState(false);
+            const gridRef = useRef(null);
+
+            useEffect(() => {
+                const handleScroll = () => {
+                    setIsScrolled(window.scrollY > 50);
+                };
+                window.addEventListener('scroll', handleScroll);
+                
+                // Start wave animation
+                setTimeout(() => {
+                    createWaveAnimation();
+                }, 500);
+                
+                setTimeout(() => {
+                    setAnimationComplete(true);
+                }, 5000);
+                
+                return () => window.removeEventListener('scroll', handleScroll);
+            }, []);
+
+            const createWaveAnimation = () => {
+                if (!gridRef.current) return;
+                
+                const container = gridRef.current;
+                const containerWidth = container.offsetWidth;
+                const containerHeight = container.offsetHeight;
+                const dotSpacing = 30;
+                const cols = Math.floor(containerWidth / dotSpacing);
+                const rows = Math.floor(containerHeight / dotSpacing);
+                
+                for (let row = 0; row < rows; row++) {
+                    for (let col = 0; col < cols; col++) {
+                        const dot = document.createElement('div');
+                        dot.className = 'grid-dot absolute';
+                        dot.style.left = `${col * dotSpacing}px`;
+                        dot.style.top = `${row * dotSpacing}px`;
+                        
+                        // Calculate wave delay based on distance from center
+                        const centerX = containerWidth / 2;
+                        const centerY = containerHeight / 2;
+                        const distance = Math.sqrt(
+                            Math.pow(col * dotSpacing - centerX, 2) + 
+                            Math.pow(row * dotSpacing - centerY, 2)
+                        );
+                        const delay = distance * 3; // Adjust wave speed
+                        
+                        dot.style.animationDelay = `${delay}ms`;
+                        dot.classList.add('wave-animation');
+                        
+                        container.appendChild(dot);
+                    }
+                }
+            };
+
+            const scrollToSection = (sectionId) => {
+                document.getElementById(sectionId).scrollIntoView({ behavior: 'smooth' });
+                setActiveSection(sectionId);
+            };
+
+            const experiences = [
+                {
+                    company: "Living Stones Foundation",
+                    role: "Big Data Analyst",
+                    period: "January 2025 - May 2025",
+                    location: "Remote",
+                    highlights: [
+                        "Designed scalable data storage solutions for a marketplace application, managing 5TB of data monthly",
+                        "Optimized intelligent matching algorithms using Python and TensorFlow, improving accuracy by 35%"
+                    ]
+                },
+                {
+                    company: "DataAnnotation",
+                    role: "AI Software Engineer",
+                    period: "February 2024 - January 2025",
+                    location: "Remote",
+                    highlights: [
+                        "Developed RESTful APIs and Java programs for LLM-generated application testing",
+                        "Debugged and optimized 2,000+ code solutions across multiple languages",
+                        "Reduced JSON file parsing failure rates by 30%"
+                    ]
+                },
+                {
+                    company: "NYU Stern Business Analytics Club",
+                    role: "ML Team Engineer & Director",
+                    period: "February 2024 - December 2025",
+                    location: "New York, NY",
+                    highlights: [
+                        "Directed four ML projects including a poker bot with 60% win rate using Deep Q Networks",
+                        "Reduced transcription error rate to 5% using fine-tuned transformers",
+                        "Implemented algorithmic trading strategies with PyTorch and LSTM models"
+                    ]
+                },
+                {
+                    company: "Arizona State University - Forzani Lab",
+                    role: "Healthcare Data Research Analyst",
+                    period: "March 2022 - February 2023",
+                    location: "Tempe, AZ",
+                    highlights: [
+                        "Uncovered 3 ketone-measurement discrepancies using Python and R",
+                        "Integrated 10,000+ test results into MySQL server for efficient querying",
+                        "Created interactive Power BI dashboard for research team visualization"
+                    ]
+                }
+            ];
+
+            const projects = [
+                {
+                    title: "OptimumPicks",
+                    link: "https://github.com/ritvikra/OptimumPicks", 
+                    tech: "React, Node, Express, Python, PostgreSQL",
+                    description: "Sports betting odds optimization platform",
+                    highlights: [
+                        "Web-scraped odds from multiple sportsbooks using BeautifulSoup",
+                        "Deployed React frontend and REST API backend to Vercel",
+                        "Utilized transformer model to predict upcoming sports odds"
+                    ]
+                },
+                {
+                    title: "Cubist Congestion Zone Data Visualizer",
+                    link: "https://github.com/rashmithrepala123/CubistHackathon",
+                    tech: "Streamlit, Mapbox, GeoJson, Python",
+                    description: "Traffic prediction and visualization tool",
+                    highlights: [
+                        "Created data visualization tool for Cubist employees",
+                        "Trained feedforward neural network with 98% accuracy within 1 SD",
+                        "Deployed StreamLit web app with timelapse traffic representation"
+                    ]
+                },
+                {
+                    title: "Public Transportation Inequality Investigation",
+                    link: "https://www.figma.com/proto/y5i1T8YeLuJDRlIVEbC8CL/Final-Presentation?node-id=1-2&p=f&t=GCZKhocOwqLOGx5f-1&scaling=contain&content-scaling=fixed&page-id=0%3A1",
+                    tech: "Python, QGIS",
+                    description: "Baltimore transit system analysis",
+                    highlights: [
+                        "Identified deficiencies in Baltimore Metropolitan bus transit system",
+                        "Used feature importance and linear regression for route optimization",
+                        "Deployed GIS software to distinguish underserved communities"
+                    ]
+                }
+            ];
+
+            const skills = {
+                "Languages": ["Python", "Java", "C", "C++", "SQL (MySQL, PostgreSQL)", "TypeScript", "JavaScript", "HTML", "CSS", "PowerShell"],
+                "Frameworks & Libraries": ["PyTorch", "TensorFlow", "Scikit-Learn", "Pandas", "NumPy", "Matplotlib", "Seaborn", "SQLAlchemy", "Streamlit", "pyKML", "JSON"],
+                "Platforms & Tools": ["AWS", "Microsoft Azure", "Kubernetes", "Docker", "Git/GitHub", "Vercel", "Railway", "QGIS", "Power BI", "R Studio"],
+                "Technologies": ["Retrieval-Augmented Generation (RAG)", "LangChain", "HuggingFace", "Apache Spark"]
+            };
+
+            return (
+                <div className="min-h-screen bg-black text-white">
+                    {/* Navigation */}
+                    {animationComplete && (
+                        <nav className={`fixed top-0 w-full z-50 transition-all duration-500 content-reveal ${isScrolled ? 'nav-dark' : 'bg-transparent'}`}>
+                            <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                                <div className="flex justify-between items-center py-4">
+                                    <div className="text-2xl font-bold text-white">RR</div>
+                                    <div className="hidden md:flex space-x-8">
+                                        {['Home', 'About', 'Experience', 'Projects', 'Skills', 'Contact'].map((item) => (
+                                            <button
+                                                key={item}
+                                                onClick={() => scrollToSection(item.toLowerCase())}
+                                                className={`text-gray-300 hover:text-white transition-colors ${activeSection === item.toLowerCase() ? 'text-white font-semibold' : ''}`}
+                                            >
+                                                {item}
+                                            </button>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </nav>
+                    )}
+
+                    {/* Hero Section with Wave Animation */}
+                    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+                        <div ref={gridRef} className="absolute inset-0 z-0"></div>
+                        
+                        <div className="text-center max-w-4xl mx-auto px-4 relative z-10">
+                            <h1 className="text-6xl md:text-8xl font-bold mb-6 name-reveal">
+                                Ritvik Rallapalli
+                            </h1>
+                            <div className="text-xl md:text-2xl mb-8 subtitle-reveal text-gray-300">
+                                AI Engineer & Data Scientist
+                            </div>
+                            <p className="text-lg md:text-xl mb-8 max-w-2xl mx-auto content-reveal text-gray-400">
+                                Passionate about machine learning, data science, and building intelligent systems that solve real-world problems
+                            </p>
+                            {animationComplete && (
+                                <div className="flex justify-center space-x-6 content-reveal">
+                                    <a href="mailto:rr4481@nyu.edu" className="text-white hover:text-gray-300 transition-colors">
+                                        <i className="fas fa-envelope text-2xl"></i>
+                                    </a>
+                                    <a href="http://www.linkedin.com/in/ritvikrallapalli" className="text-white hover:text-gray-300 transition-colors">
+                                        <i className="fab fa-linkedin text-2xl"></i>
+                                    </a>
+                                    <a href="https://github.com/ritvikra" className="text-white hover:text-gray-300 transition-colors">
+                                        <i className="fab fa-github text-2xl"></i>
+                                    </a>
+                                </div>
+                            )}
+                        </div>
+                    </section>
+
+                    {/* About Section */}
+                    <section id="about" className="py-20 bg-black">
+                        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="text-center mb-16">
+                                <h2 className="text-4xl font-bold text-white mb-4">About Me</h2>
+                                <div className="section-divider"></div>
+                            </div>
+                            <div className="grid md:grid-cols-2 gap-12 items-center">
+                                <div className="floating-element">
+                                    <h3 className="text-2xl font-semibold mb-6 text-white">Education & Background</h3>
+                                    <div className="space-y-4">
+                                        <div className="border-l-4 border-white pl-6">
+                                            <h4 className="text-xl font-semibold text-white">New York University</h4>
+                                            <p className="text-gray-400">Courant Institute of Mathematical Sciences</p>
+                                            <p className="text-gray-400">Bachelor of Arts in Math & Computer Science</p>
+                                            <p className="text-gray-400">Expected December 2026</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="floating-element" style={{animationDelay: '1s'}}>
+                                    <h3 className="text-2xl font-semibold mb-6 text-white">Achievements</h3>
+                                    <div className="space-y-3">
+                                        <div className="flex items-center">
+                                            <i className="fas fa-trophy text-white mr-3"></i>
+                                            <span className="text-gray-300">Cubist Hackathon 2025 Scholarship Winner</span>
+                                        </div>
+                                        <div className="flex items-center">
+                                            <i className="fas fa-medal text-white mr-3"></i>
+                                            <span className="text-gray-300">YIS International Econbowl 2nd Place Winner</span>
+                                        </div>
+                                        <div className="flex items-center">
+                                            <i className="fas fa-award text-white mr-3"></i>
+                                            <span className="text-gray-300">1st Place Mayor's Critical Thinking Challenge</span>
+                                        </div>
+                                        <div className="flex items-center">
+                                            <i className="fas fa-star text-white mr-3"></i>
+                                            <span className="text-gray-300">Arizona Social Impact Business Challenge</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Experience Section */}
+                    <section id="experience" className="py-20 bg-black">
+                        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="text-center mb-16">
+                                <h2 className="text-4xl font-bold text-white mb-4">Experience</h2>
+                                <div className="section-divider"></div>
+                            </div>
+                            <div className="experience-timeline">
+                                {experiences.map((exp, index) => (
+                                    <div key={index} className="experience-item">
+                                        <div className="card-dark rounded-lg p-8">
+                                            <div className="flex flex-col md:flex-row md:items-start md:justify-between mb-4">
+                                                <div>
+                                                    <h3 className="text-2xl font-bold text-white">{exp.role}</h3>
+                                                    <h4 className="text-xl text-gray-300 font-semibold">{exp.company}</h4>
+                                                </div>
+                                                <div className="text-gray-400 mt-2 md:mt-0 md:text-right">
+                                                    <p>{exp.period}</p>
+                                                    <p>{exp.location}</p>
+                                                </div>
+                                            </div>
+                                            <ul className="space-y-2">
+                                                {exp.highlights.map((highlight, idx) => (
+                                                    <li key={idx} className="flex items-start">
+                                                        <i className="fas fa-chevron-right text-white mt-1 mr-3 text-sm"></i>
+                                                        <span className="text-gray-300">{highlight}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Projects Section */}
+                    <section id="projects" className="py-20 bg-black">
+                        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="text-center mb-16">
+                                <h2 className="text-4xl font-bold text-white mb-4">Projects</h2>
+                                <div className="section-divider"></div>
+                            </div>
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                {projects.map((project, index) => (
+                                <a href={project.link}>
+                                    <div key={index} className="project-block card-dark rounded-lg p-6">
+                                        <h3 className="text-xl font-bold text-white mb-2">{project.title}</h3>
+                                        <p className="text-gray-300 font-semibold mb-3">{project.tech}</p>
+                                        <p className="text-gray-400 mb-4">{project.description}</p>
+                                        <ul className="space-y-2">
+                                            {project.highlights.map((highlight, idx) => (
+                                                <li key={idx} className="flex items-start text-sm">
+                                                    <i className="fas fa-check text-white mt-1 mr-2"></i>
+                                                    <span className="text-gray-400">{highlight}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </a>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Skills Section */}
+                    <section id="skills" className="py-20 bg-black">
+                        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+                            <div className="text-center mb-16">
+                                <h2 className="text-4xl font-bold text-white mb-4">Skills</h2>
+                                <div className="section-divider"></div>
+                            </div>
+                            <div className="grid md:grid-cols-2 gap-8">
+                                {Object.entries(skills).map(([category, skillList]) => (
+                                    <div key={category} className="card-dark rounded-lg p-6">
+                                        <h3 className="text-xl font-bold text-white mb-4">{category}</h3>
+                                        <div className="flex flex-wrap gap-2">
+                                            {skillList.map((skill, index) => (
+                                                <span key={index} className="skill-tag-dark px-3 py-1 rounded-full text-sm font-medium">
+                                                    {skill}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* Contact Section */}
+                    <section id="contact" className="py-20 bg-black">
+                        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                            <h2 className="text-4xl font-bold mb-4 text-white">Contact Me</h2>
+                            <div className="section-divider mb-8"></div>
+                            <p className="text-xl mb-8 max-w-2xl mx-auto text-gray-300">
+                                I'm always interested in discussing new opportunities and collaborations. Looking for an Machine Learning Engineer or Quant Research role.
+                            </p>
+                            <div className="flex justify-center space-x-8 mb-8 flex-wrap">
+                                <a href="mailto:rr4481@nyu.edu" className="flex items-center space-x-2 hover:text-gray-300 transition-colors text-white mb-4">
+                                    <i className="fas fa-envelope text-xl"></i>
+                                    <span>rr4481@nyu.edu</span>
+                                </a>
+                                <a href="tel:+14804941220" className="flex items-center space-x-2 hover:text-gray-300 transition-colors text-white mb-4">
+                                    <i className="fas fa-phone text-xl"></i>
+                                    <span>(480) 494-1220</span>
+                                </a>
+                            </div>
+                            <div className="flex justify-center space-x-6 mb-8">
+                                <a href="http://www.linkedin.com/in/ritvikrallapalli" className="text-white hover:text-gray-300 transition-colors">
+                                    <i className="fab fa-linkedin text-3xl"></i>
+                                </a>
+                                <a href="https://github.com/ritvikra" className="text-white hover:text-gray-300 transition-colors">
+                                    <i className="fab fa-github text-3xl"></i>
+                                </a>
+                            </div>
+                            <p className="text-gray-400">130 Mulberry St. New York, NY 10013</p>
+                        </div>
+                    </section>
+
+                    {/* Footer */}
+                    <footer className="bg-black border-t border-gray-800 text-white py-8">
+                        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+                            <p className="text-gray-400">&copy; 2025 Ritvik Rallapalli. All rights reserved.</p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        };
+
+        ReactDOM.render(<Portfolio />, document.getElementById('root'));
+    </script>
+</body>
+</html>
