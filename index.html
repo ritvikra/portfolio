@@ -259,35 +259,47 @@
 
             const experiences = [
                 {
-                    company: "Living Stones Foundation",
-                    role: "Big Data Analyst",
-                    period: "January 2025 - May 2025",
-                    location: "Remote",
+                    ompany: "11:11 Systems",
+                    role: "Software Engineering Intern",
+                    period: "June 2025 - August 2025",
+                    location: "Fairfield, NJ",
                     highlights: [
-                        "Designed scalable data storage solutions for a marketplace application, managing 5TB of data monthly",
-                        "Optimized intelligent matching algorithms using Python and TensorFlow, improving accuracy by 35%"
-                    ]
+                        "Engineered and optimized 10+ Python and SQL-based ETL pipelines for data migration into our new Snowflake warehouses, reducing data loading time by 30%",
+                        "Deployed multiple neural network models to identify 300+ potential customer leads, leading to a 15% increase in sales opportunities",
+                        "Standardized 37 financial reporting data sheets over the span of 3 years using SQL, adding parsing logic and schema alignment for Snowflake ingestion"
+                    ] 
                 },
                 {
-                    company: "DataAnnotation",
-                    role: "AI Software Engineer",
-                    period: "February 2024 - January 2025",
-                    location: "Remote",
+                    company: "Living Stones Foundation",
+                    role: "Software Engineering Intern",
+                    period: "January 2025 - May 2025",
+                    location: "New York, NY",
                     highlights: [
-                        "Developed RESTful APIs and Java programs for LLM-generated application testing",
-                        "Debugged and optimized 2,000+ code solutions across multiple languages",
-                        "Reduced JSON file parsing failure rates by 30%"
+                        "Built a full-stack marketplace application using React, FastAPI, and PostgreSQL, onboarding 120+ farmers and connecting them with 50+ customers within the first 6 months",
+                        "Developed an XGBoost ensemble ranking model that boosted producer-buyer matching from 0.61 to 0.82 (MAP), leading to a 35% increase in transactions",
+                        "Implemented automated alerting for product order imbalances, reducing buyer/seller pressure incidents by 80%"
                     ]
                 },
                 {
                     company: "NYU Stern Business Analytics Club",
                     role: "ML Team Engineer & Director",
-                    period: "February 2024 - December 2025",
+                    period: "February 2024 - May 2025",
                     location: "New York, NY",
                     highlights: [
-                        "Directed four ML projects including a poker bot with 60% win rate using Deep Q Networks",
-                        "Reduced transcription error rate to 5% using fine-tuned transformers",
-                        "Implemented algorithmic trading strategies with PyTorch and LSTM models"
+                        "Captured and logged over 10,000 simulated poker hands with MLflow, enabling rigorous experiment tracking and hyperparameter tuning to increase model aggression metrics",
+                        "Engineered a fine-tuning pipeline for OpenAI Whisper on 4,000 accented English speech clips, reducing error rates from 25% to 5% and improving transcription accuracy significantly",
+                        "Developed and deployed an algorithmic trading strategy using an LSTM model implemented in PyTorch, optimizing trade execution in Optiver’s Ready Trader Go environment"
+                    ]
+                },
+                {
+                    company: "DataAnnotation",
+                    role: "AI Software Engineer",
+                    period: "February 2024 - May 2025",
+                    location: "Remote",
+                    highlights: [
+                        "Developed RESTful APIs and Java programs for LLM-generated application testing",
+                        "Debugged and optimized 2,000+ code solutions across multiple languages",
+                        "Reduced JSON file parsing failure rates by 30%"
                     ]
                 },
                 {
@@ -305,8 +317,19 @@
 
             const projects = [
                 {
+                    title: "Patent File Embedder",
+                    link: "https://github.com/ritvikra/PDFEmbedder", 
+                    tech: "React, Node.js, Express.js, MongoDB, TypeScript, PyTorch, Docker, TailwindCSS",
+                    description: "Web Application that vector embeds documents for easy lookup from ML models",
+                    highlights: [
+                        "Deployed a full-stack document ingestion application with Node.js, Express, and a VM hosted on Google Cloud Platform, processing over 500 patent PDFs/HTMLs",
+                        "Generated vector embeddings using a PyTorch transformer model, producing 50,000+ high-dimensional embeddings for downstream ML tasks",
+                        "Developed a separate application with REST API endpoints to visualize document text, embeddings, and job progress, reducing analyst review time by 40%"
+                    ]                    
+                },
+                {
                     title: "OptimumPicks",
-                    link: "optimumpicks.com", 
+                    link: "http://optimumpicks.ritvikrallapalli.com", 
                     tech: "React, Node, Express, Python, PostgreSQL",
                     description: "Sports betting odds optimization platform",
                     highlights: [
@@ -340,10 +363,21 @@
             ];
 
             const skills = {
-                "Languages": ["Python", "Java", "C", "C++", "SQL (MySQL, PostgreSQL)", "TypeScript", "JavaScript", "HTML", "CSS", "PowerShell"],
-                "Frameworks & Libraries": ["PyTorch", "TensorFlow", "Scikit-Learn", "Pandas", "NumPy", "Matplotlib", "Seaborn", "SQLAlchemy", "Streamlit", "pyKML", "JSON"],
-                "Platforms & Tools": ["AWS", "Microsoft Azure", "Kubernetes", "Docker", "Git/GitHub", "Vercel", "Railway", "QGIS", "Power BI", "R Studio"],
-                "Technologies": ["Retrieval-Augmented Generation (RAG)", "LangChain", "HuggingFace", "Apache Spark"]
+                "Languages": [
+                    "Python", "TypeScript", "JavaScript", "Java", "C/C++", "SQL", "HTML", "CSS", "R", "PowerShell"
+                ],
+                "Frameworks": [
+                    "React", "Express", "NextJS", "Node.js", "Tailwind CSS", "Flask", ".NET"
+                ],
+                "Developer Tools": [
+                    "Docker", "AWS", "GCP", "Git/GitHub", "CI/CD", "Linux", "PostgreSQL", "MySQL", 
+                    "MongoDB", "Snowflake", "HuggingFace", "LangChain", "n8n", "WebSockets"
+                ],
+                "Data-Science & ML Libraries": [
+                    "PyTorch", "TensorFlow", "NumPy", "Pandas", "SciPy", "Scikit-Learn", "Statsmodels", 
+                    "XGBoost", "LightGBM", "Keras", "OpenCV", "Weights & Biases", "Matplotlib", 
+                    "Seaborn", "Plotly", "Bokeh", "Dash", "Streamlit", "Jupyter"
+                ]
             };
 
             return (
